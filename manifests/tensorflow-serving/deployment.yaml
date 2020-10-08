@@ -24,6 +24,9 @@ spec:
       labels:
         app: tf-server
     spec:
+      selector:
+        app: tf-server
+        component: tf-service
       containers:
       - name: tf-container
         image: tensorflow/serving

@@ -39,9 +39,11 @@ metadata:
   name: tf-service
 spec:
   ports:
-  - port: 8500
+  - name: grcp
+    port: 8500
     targetPort: 8500
-  - port: 8501
+  - name: http
+    port: 8501
     targetPort: 8501
   selector:
     app: tf-server

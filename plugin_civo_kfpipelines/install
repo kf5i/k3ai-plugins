@@ -51,9 +51,9 @@ while [ : ]
 }
 
 #######
-### Kubeflow pipelines login as example, change it accordingly with your needs
+### Kubeflow pipelines
 civo_install(){
-    info "Installing <TEMPLATE NAME> crd"
+    info "Installing kubeflow pipelines for civo crd"
     export PIPELINE_VERSION=1.0.1
     kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=$PIPELINE_VERSION"
     kubectl wait --for condition=established --timeout=60s crd/applications.app.k8s.io
@@ -111,5 +111,7 @@ sleep_cursor
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "Kubeflow pipelines UI: http://"$IP 
 }
+
+civo_install
 
 #######

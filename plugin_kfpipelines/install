@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #########################################
-### K3ai (keɪ3ai)
+### K3ai (keɪ3ai) Plugins - Kubeflow pipelines (argo)
 ### https://github.com/kf5i/k3ai
 ### Alessandro Festa @bringyourownai
 ### Gabriele Santomaggio @gsantomaggio

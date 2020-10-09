@@ -57,6 +57,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tf-server-deployment
+  namespace: tf-serving
 spec:
   replicas: 1
   selector:
@@ -130,7 +131,7 @@ EOF
       kind: "Ingress"
       metadata:
         name: "tf-serving-ingress"
-        namespace: kubeflow
+        namespace: tf-serving
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
           

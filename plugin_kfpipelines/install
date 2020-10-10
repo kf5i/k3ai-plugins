@@ -112,7 +112,7 @@ EOF
 
 sleep_cursor
 
-IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
+IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "pipelines UI: http://"$IP 
 }
 

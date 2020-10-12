@@ -88,7 +88,7 @@ spec:
   selector:
     app: tf-server
   ports:
-    - name: grcp
+    - name: grpc
       port: 8500
       targetPort: 8500
     - name: rest
@@ -99,15 +99,14 @@ EOF
 
     waiting_pod_array=("k8s-app=kube-dns;kube-system" 
                        "k8s-app=metrics-server;kube-system"
-                       "app=traefik;kube-system")
+                       "app=traefik;kube-system"
+                       "app=tf-server;tf-serving")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 
       IFS=';' read -ra VALUES <<< "$i"
         wait "${VALUES[0]}" "${VALUES[1]}"
     done
-
-# kubectl -n tf-serving exec $(kubectl get pod -n tf-serving -l app=tf-server -o name) -- bash -c "apt-get update && apt-get install -y git && cd models   && git clone https://github.com/tensorflow/serving  && cp -r /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/ && rm -r serving/ && tensorflow_model_server  --rest_api_port=8501  --model_name=half_plus_two   --model_base_path='/models/testdata/saved_model_half_plus_two_cpu' &"
 
 
     info "Tensorflow Serving ready!!"
@@ -148,13 +147,9 @@ EOF
 sleep_cursor
 
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
-info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/"
-#info "To test it please execute the following command: kubectl -n tf-serving exec $(kubectl get pod -n tf-serving -l app=tf-server -o name) -- bash -c "apt-get update && apt-get install -y git && cd models   && git clone https://github.com/tensorflow/serving  && cp -r /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/ && rm -r serving/ && tensorflow_model_server  --rest_api_port=8501  --model_name=half_plus_two   --model_base_path='/models/testdata/saved_model_half_plus_two_cpu' &""
-# Query the model using the predict API
-#curl -d '{"instances": [1.0, 2.0, 5.0]}' \
-#    -X POST http://localhost:8501/v1/models/half_plus_two:predict
+info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/resnet"
+info "Tensorflow Serving  gRPC Endpoint at: http://"$IP":8500/v1/models/resnet"
 
-# Returns => { "predictions": [2.5, 3.0, 4.5] }
 }
 
 install

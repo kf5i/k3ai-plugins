@@ -56,7 +56,7 @@ tfserving_install_pipelines(){
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tf-server-deployment
+  name: tf-server 
   namespace: tf-serving
 spec:
   replicas: 1
@@ -72,25 +72,24 @@ spec:
       - name: shared-data
         emptyDir: {}
       containers:
-      - name: nginx
+      - name: tf-server
         image: tensorflow/serving
         ports:
-        - containerPort: 8500
         - containerPort: 8501
         volumeMounts:
         - name: shared-data
-          mountPath: /usr/share/tf-models
+          mountPath: /models/
 EOF
-    kubectl apply -f -- << EOF
+    kubectl apply -f - << EOF
 apiVersion: v1
 kind: Service
 metadata:
   name: tf-server-service
+  namespace: tf-serving
 spec:
   selector:
     app: tf-server
   ports:
-    name: http
     - protocol: TCP
       port: 8501
       targetPort: 8501
@@ -107,12 +106,10 @@ EOF
         wait "${VALUES[0]}" "${VALUES[1]}"
     done
 
-kubectl exec shell-demo -- "git clone https://github.com/tensorflow/serving"
-kubectl exec shell-demo -- 'TESTDATA="$(pwd)/serving/tensorflow_serving/servables/tensorflow/testdata"'
-kubectl exec shell-demo -- "git clone https://github.com/tensorflow/serving"
+kubectl -n tf-serving exec -l tf-server -- bash -c "apt-get update && apt-get install -y git && cd models && git clone https://github.com/tensorflow/serving  && mv /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/"
 
 
-    info "Kubeflow pipelines ready!!"
+    info "Tensorflow Serving ready!!"
 
     info "Defining the ingress"
     sleep_cursor

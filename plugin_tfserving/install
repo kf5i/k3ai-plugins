@@ -72,12 +72,10 @@ spec:
       - name: tf-server
         image: gcr.io/tensorflow-serving/resnet
       ports:
-        - name: grcp
-          port: 8500
-          targetPort: 8500
-        - name: rest
-          port: 8501
-          targetPort: 8501
+      - containerPort: 8500
+        name: grcp
+      - containerPort: 8501
+        name: rest
 EOF
     kubectl apply -f - << EOF
 apiVersion: v1

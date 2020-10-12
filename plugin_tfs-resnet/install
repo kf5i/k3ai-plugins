@@ -1,0 +1,155 @@
+#!/bin/bash
+
+#########################################
+### K3ai (keɪ3ai) Plugins - Tensorflow Serving
+### https://github.com/kf5i/k3ai
+### Alessandro Festa @bringyourownai
+### Gabriele Santomaggio @gsantomaggio
+######################################### 
+
+info()
+{
+    echo '[INFO] ' "$@"
+}
+
+infoL()
+{
+    echo -en '[INFO] ' "$@\n"
+}
+
+sleep_cursor()
+{
+ chars="/-\|"
+ for (( z=0; z<7; z++ )); do
+   for (( i=0; i<${#chars}; i++ )); do
+    sleep 0.5
+    echo -en "${chars:$i:1}" "\r"
+  done
+done
+}
+
+
+wait() 
+{
+status=1
+infoL "Testing.." $1.$2  
+while [ : ]
+  do
+    sleep_cursor &
+    kubectl wait --for condition=ready --timeout=14s pod -l  $1   -n $2
+    status=$?
+    
+    if [ $status -ne 0 ]
+    then 
+      infoL "$1 isn't ready yet. This may take a few minutes..."
+      sleep_cursor
+    else
+      break  
+    fi 
+  done
+}
+
+install(){
+    info "Installing Tensorflow Serving crd"
+    kubectl create ns tf-serving
+    kubectl apply -f - << EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tf-server 
+  namespace: tf-serving
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tf-serv-resnet
+  template:
+    metadata:
+      labels:
+        app: tf-serv-resnet
+    spec:
+      containers:
+      - name: tf-server
+        image: gcr.io/tensorflow-serving/resnet
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8500
+          name: grcp
+        - containerPort: 8501
+          name: rest
+EOF
+    kubectl apply -f - << EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: tf-server-service
+  namespace: tf-serving
+spec:
+  selector:
+    app: tf-serv-resnet
+  ports:
+    - name: grpc
+      port: 8500
+      targetPort: 8500
+    - name: rest
+      port: 8501
+      targetPort: 8501
+  type: LoadBalancer
+EOF
+
+    waiting_pod_array=("k8s-app=kube-dns;kube-system" 
+                       "k8s-app=metrics-server;kube-system"
+                       "app=traefik;kube-system"
+                       "app=tf-serv-resnet;tf-serving")
+
+    for i in "${waiting_pod_array[@]}"; do 
+      echo "$i"; 
+      IFS=';' read -ra VALUES <<< "$i"
+        wait "${VALUES[0]}" "${VALUES[1]}"
+    done
+
+
+    info "Tensorflow Serving ready!!"
+
+    info "Defining the ingress"
+    sleep_cursor
+
+    kubectl apply -f - << EOF
+      apiVersion: networking.k8s.io/v1beta1
+      kind: IngressClass
+      metadata: 
+        name: traefik-lb
+      spec: 
+        controller: traefik.io/ingress-controller
+EOF
+
+    kubectl apply -f - << EOF
+      apiVersion: "networking.k8s.io/v1beta1"
+      kind: "Ingress"
+      metadata:
+        name: "tf-serving-ingress"
+        namespace: tf-serving
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /$2
+          
+      spec:
+        ingressClassName: "traefik-lb"
+        rules:
+        - http:
+            paths:
+            - path: "/"
+              backend:
+                serviceName: "tf-server-serving"
+                servicePort: 8500
+                servicePort: 8501
+EOF
+
+sleep_cursor
+
+IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
+info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/resnet"
+info "Tensorflow Serving  gRPC Endpoint at: http://"$IP":8500/v1/models/resnet"
+
+}
+
+install

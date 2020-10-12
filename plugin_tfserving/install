@@ -49,7 +49,7 @@ while [ : ]
   done
 }
 
-tfserving_install_pipelines(){
+install(){
     info "Installing Tensorflow Serving crd"
     kubectl create ns tf-serving
     kubectl apply -f - << EOF
@@ -76,9 +76,6 @@ spec:
         image: tensorflow/serving
         ports:
         - containerPort: 8501
-        volumeMounts:
-        - name: shared-data
-          mountPath: /models/
 EOF
     kubectl apply -f - << EOF
 apiVersion: v1
@@ -106,7 +103,7 @@ EOF
         wait "${VALUES[0]}" "${VALUES[1]}"
     done
 
-kubectl -n tf-serving exec -l tf-server -- bash -c "apt-get update && apt-get install -y git && cd models && git clone https://github.com/tensorflow/serving  && mv /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/"
+kubectl -n tf-serving exec -l tf-server -- bash -c "apt-get update && apt-get install -y git && cd models && git clone https://github.com/tensorflow/serving  && mv /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/ && rm -r serving/"
 
 
     info "Tensorflow Serving ready!!"
@@ -148,3 +145,4 @@ sleep_cursor
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/"
 }
+ install

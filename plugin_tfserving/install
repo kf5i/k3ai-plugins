@@ -36,7 +36,7 @@ infoL "Testing.." $1.$2
 while [ : ]
   do
     sleep_cursor &
-    kubectl wait --for condition=available --timeout=14s deploy -l  $1   -n $2
+    kubectl wait --for condition=ready --timeout=14s pod -l  $1   -n $2
     status=$?
     
     if [ $status -ne 0 ]
@@ -99,7 +99,8 @@ EOF
 
     waiting_pod_array=("k8s-app=kube-dns;kube-system" 
                        "k8s-app=metrics-server;kube-system"
-                       "app=traefik;kube-system")
+                       "app=traefik;kube-system"
+                       "app=tf-serv-resnet;tf-serving")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 

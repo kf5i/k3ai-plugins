@@ -71,11 +71,12 @@ spec:
       containers:
       - name: tf-server
         image: gcr.io/tensorflow-serving/resnet
-      ports:
-      - containerPort: 8500
-        name: grcp
-      - containerPort: 8501
-        name: rest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8500
+          name: grcp
+        - containerPort: 8501
+          name: rest
 EOF
     kubectl apply -f - << EOF
 apiVersion: v1

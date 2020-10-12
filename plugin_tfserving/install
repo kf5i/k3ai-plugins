@@ -62,11 +62,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tf-server
+      app: tf-serv-resnet
   template:
     metadata:
       labels:
-        app: tf-server
+        app: tf-serv-resnet
     spec:
       containers:
       - name: tf-server
@@ -86,7 +86,7 @@ metadata:
   namespace: tf-serving
 spec:
   selector:
-    app: tf-server
+    app: tf-serv-resnet
   ports:
     - name: grpc
       port: 8500
@@ -100,7 +100,7 @@ EOF
     waiting_pod_array=("k8s-app=kube-dns;kube-system" 
                        "k8s-app=metrics-server;kube-system"
                        "app=traefik;kube-system"
-                       "app=tf-server;tf-serving")
+                       "app=tf-serv-resnet;tf-serving")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 

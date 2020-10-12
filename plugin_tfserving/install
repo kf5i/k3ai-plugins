@@ -94,8 +94,7 @@ EOF
 
     waiting_pod_array=("k8s-app=kube-dns;kube-system" 
                        "k8s-app=metrics-server;kube-system"
-                       "app=traefik;kube-system"  
-                       "app=tf-server;tf-serving")
+                       "app=traefik;kube-system")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 
@@ -145,4 +144,5 @@ sleep_cursor
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/"
 }
- install
+
+install

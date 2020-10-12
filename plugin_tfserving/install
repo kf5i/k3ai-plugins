@@ -71,8 +71,13 @@ spec:
       containers:
       - name: tf-server
         image: gcr.io/tensorflow-serving/resnet
-        ports:
-        - containerPort: 8500
+      ports:
+        - name: grcp
+          port: 8500
+          targetPort: 8500
+        - name: rest
+          port: 8501
+          targetPort: 8501
 EOF
     kubectl apply -f - << EOF
 apiVersion: v1
@@ -84,9 +89,12 @@ spec:
   selector:
     app: tf-server
   ports:
-    - protocol: TCP
+    - name: grcp
       port: 8500
       targetPort: 8500
+    - name: rest
+      port: 8501
+      targetPort: 8501
   type: LoadBalancer
 EOF
 
@@ -135,6 +143,7 @@ EOF
               backend:
                 serviceName: "tf-server-serving"
                 servicePort: 8500
+                servicePort: 8501
 EOF
 
 sleep_cursor

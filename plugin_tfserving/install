@@ -68,14 +68,11 @@ spec:
       labels:
         app: tf-server
     spec:
-      volumes:
-      - name: shared-data
-        emptyDir: {}
       containers:
       - name: tf-server
-        image: tensorflow/serving
+        image: gcr.io/tensorflow-serving/resnet
         ports:
-        - containerPort: 8501
+        - containerPort: 8500
 EOF
     kubectl apply -f - << EOF
 apiVersion: v1
@@ -88,8 +85,9 @@ spec:
     app: tf-server
   ports:
     - protocol: TCP
-      port: 8501
-      targetPort: 8501
+      port: 8500
+      targetPort: 8500
+  type: LoadBalancer
 EOF
 
     waiting_pod_array=("k8s-app=kube-dns;kube-system" 
@@ -102,12 +100,7 @@ EOF
         wait "${VALUES[0]}" "${VALUES[1]}"
     done
 
-kubectl -n tf-serving exec $(kubectl get pod -n tf-serving -l app=tf-server -o name) -- bash -c "apt-get update \ 
-&& apt-get install -y git \ 
-&& cd models   && git clone https://github.com/tensorflow/serving  \ 
-&& cp -r /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/ \ 
-&& rm -r serving/ \ 
-&& tensorflow_model_server  --rest_api_port=8501  --model_name=half_plus_two   --model_base_path='/models/testdata/saved_model_half_plus_two_cpu'"
+# kubectl -n tf-serving exec $(kubectl get pod -n tf-serving -l app=tf-server -o name) -- bash -c "apt-get update && apt-get install -y git && cd models   && git clone https://github.com/tensorflow/serving  && cp -r /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/ && rm -r serving/ && tensorflow_model_server  --rest_api_port=8501  --model_name=half_plus_two   --model_base_path='/models/testdata/saved_model_half_plus_two_cpu' &"
 
 
     info "Tensorflow Serving ready!!"
@@ -141,13 +134,19 @@ EOF
             - path: "/"
               backend:
                 serviceName: "tf-server-serving"
-                servicePort: 8501
+                servicePort: 8500
 EOF
 
 sleep_cursor
 
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/"
+#info "To test it please execute the following command: kubectl -n tf-serving exec $(kubectl get pod -n tf-serving -l app=tf-server -o name) -- bash -c "apt-get update && apt-get install -y git && cd models   && git clone https://github.com/tensorflow/serving  && cp -r /serving/tensorflow_serving/servables/tensorflow/testdata/ /models/ && rm -r serving/ && tensorflow_model_server  --rest_api_port=8501  --model_name=half_plus_two   --model_base_path='/models/testdata/saved_model_half_plus_two_cpu' &""
+# Query the model using the predict API
+#curl -d '{"instances": [1.0, 2.0, 5.0]}' \
+#    -X POST http://localhost:8501/v1/models/half_plus_two:predict
+
+# Returns => { "predictions": [2.5, 3.0, 4.5] }
 }
 
 install

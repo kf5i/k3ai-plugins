@@ -1,11 +1,3 @@
 #!/bin/bash
-SUDO=sudo
-if [ $(id -u) -eq 0 ]; then
-   SUDO=""
-fi
-echo "Please enter your password";
-
-read -s PASSWORD
-
-echo $PASSWORD | nohup $SUDO -k -S $SUDO k3s server --write-kubeconfig-mode 644 &>/dev/null &
+k3s server --write-kubeconfig-mode 644 --disable-agent &>/dev/null &
 

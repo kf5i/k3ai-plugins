@@ -51,8 +51,8 @@ while [ : ]
 
 install(){
     info "Installing Tensorflow Serving crd"
-    kubectl create ns tf-serving
-    kubectl apply -f - << EOF
+    k3s kubectl create ns tf-serving
+    k3s kubectl apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -78,7 +78,7 @@ spec:
         - containerPort: 8501
           name: rest
 EOF
-    kubectl apply -f - << EOF
+    k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: Service
 metadata:
@@ -114,7 +114,7 @@ EOF
     info "Defining the ingress"
     sleep_cursor
 
-    kubectl apply -f - << EOF
+    k3s kubectl apply -f - << EOF
       apiVersion: networking.k8s.io/v1beta1
       kind: IngressClass
       metadata: 
@@ -123,7 +123,7 @@ EOF
         controller: traefik.io/ingress-controller
 EOF
 
-    kubectl apply -f - << EOF
+    k3s kubectl apply -f - << EOF
       apiVersion: "networking.k8s.io/v1beta1"
       kind: "Ingress"
       metadata:
@@ -146,7 +146,7 @@ EOF
 
 sleep_cursor
 
-IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
+IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/resnet"
 info "Tensorflow Serving  gRPC Endpoint at: http://"$IP":8500/v1/models/resnet"
 

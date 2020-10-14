@@ -5,5 +5,5 @@ if [ $(id -u) -eq 0 ];  then
 fi
 
 
-$SUDO bash -c "nohup k3s server --write-kubeconfig-mode 644 --disable-agent &>/dev/null &"
+$SUDO bash -c "nohup k3s server --write-kubeconfig-mode 644 > /dev/null 2>&1 &"
 

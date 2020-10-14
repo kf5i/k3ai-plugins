@@ -1,6 +1,6 @@
 #!/bin/bash
  SUDO=sudo
-if [ $(id -u) -eq 0 ]; 
+if [ $(id -u) -eq 0 ];  then
   SUDO=
 fi
 

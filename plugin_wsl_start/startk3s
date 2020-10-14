@@ -1,3 +1,9 @@
 #!/bin/bash
-k3s server --write-kubeconfig-mode 644 --disable-agent &>/dev/null &
+ SUDO=sudo
+if [ $(id -u) -eq 0 ]; 
+  SUDO=
+fi
+
+
+$SUDO sh -c "k3s server --write-kubeconfig-mode 644 --disable-agent &>/dev/null &"
 

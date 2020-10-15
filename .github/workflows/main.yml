@@ -16,8 +16,8 @@ jobs:
     - name: Assign issues and pull requests with `needs-triage` and `enhancement` label to public roadmap of k3ai
       uses: srggrs/assign-one-project-github-action@1.2.0
       if: |
-        contains(github.event.issue.labels.*.name, 'need-triage') &&
-        contains(github.event.pull_request.labels.*.name, 'enhancement')
+        contains(github.event.issue.labels.*.name, 'need-triage') && contains(github.event.issue.labels.*.name, 'enhancement') ||
+        contains(github.event.pull_request.labels.*.name, 'enhancement') && contains(github.event.pull_request.labels.*.name, 'needs-triage')
       with:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'

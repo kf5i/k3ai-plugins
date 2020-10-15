@@ -1,14 +1,24 @@
-name: Add a new GitHub Project card linked to a GitHub issue to a specified project column
-on: [issues, pull_request]
+name: Auto Assign to Project(s)
+
+on:
+  issues:
+    types: [opened, labeled]
+  pull_request:
+    types: [opened, labeled]
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.automation }}
+
 jobs:
-  add-new-issues-to-project-column:
+  assign_one_project:
     runs-on: ubuntu-latest
+    name: Assign to One Project
     steps:
-    - name: add-new-issues-to-repository-based-project-column
-      uses: docker://takanabe/github-actions-automate-projects:sandbox
-      if: github.event_name == 'issues' && github.event.action == 'opened'
-      env:
-        GITHUB_TOKEN: ${{ secrets.automation }}
-        GITHUB_PROJECT_URL: https://github.com/orgs/kf5i/projects/2
-        GITHUB_PROJECT_COLUMN_NAME: Features Requests
+    - name: Assign issues and pull requests with `needs-triage` and `enhancement` label to public roadmap of k3ai
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if: |
+        contains(github.event.issue.labels.*.name, 'need-triage') &&
+        contains(github.event.pull_request.labels.*.name, 'enhancement')
+      with:
+        project: 'https://github.com/orgs/kf5i/projects/2'
+        column_name: 'Features Requests'
 

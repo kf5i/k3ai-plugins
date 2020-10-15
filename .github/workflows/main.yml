@@ -13,8 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Assign to One Project
     steps:
-    - name: Assign issues and pull requests with `needs-triage` and `enhancement` label to public roadmap of k3ai
-      uses: srggrs/assign-one-project-github-action@1.2.0
+    - name: Automate projects
+      # You may pin to the exact commit or the version.
+      # uses: takanabe/github-actions-automate-projects@5d004c140c65fa8b4ef3b18a38219ce680bce816
+      uses: takanabe/github-actions-automate-projects@v0.0.2
       if: |
         contains(github.event.issue.labels.*.name, 'need-triage') && contains(github.event.issue.labels.*.name, 'enhancement') ||
         contains(github.event.pull_request.labels.*.name, 'enhancement') && contains(github.event.pull_request.labels.*.name, 'needs-triage')

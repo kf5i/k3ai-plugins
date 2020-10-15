@@ -10,5 +10,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.automation }}
         GITHUB_PROJECT_URL: https://github.com/orgs/kf5i/projects/2
-        GITHUB_PROJECT_COLUMN_NAME: New Ideas/Features Requests
+        GITHUB_PROJECT_COLUMN_NAME: "New Ideas/Features Requests"
 

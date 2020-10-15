@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: triage
-      uses: docker://takanabe/github-actions-automate-projects:v0.0.1
+      uses: docker://takanabe/github-actions-automate-projects:latest
       if: github.event_name == 'issues' && github.event.label.name == 'needs-triage' && github.event.label.name == 'enhancement'
       env:
         GITHUB_TOKEN: ${{ secrets.automation }}

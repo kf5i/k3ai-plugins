@@ -1,12 +1,12 @@
-name: Add a new GitHub issue to the specified project column
+name: Add a new GitHub Project card linked to a GitHub issue to a specified project column
 on: [issues, pull_request]
 jobs:
   add-new-issues-to-project-column:
     runs-on: ubuntu-latest
     steps:
-    - name: triage
-      uses: docker://takanabe/github-actions-automate-projects:latest
-      if: github.event_name == 'issues' && github.event.label.name == 'needs-triage' && github.event.label.name == 'enhancement'
+    - name: add-new-issues-to-repository-based-project-column
+      uses: docker://takanabe/github-actions-automate-projects:sandbox
+      if: github.event_name == 'issues' && github.event.action == 'opened'
       env:
         GITHUB_TOKEN: ${{ secrets.automation }}
         GITHUB_PROJECT_URL: https://github.com/orgs/kf5i/projects/2

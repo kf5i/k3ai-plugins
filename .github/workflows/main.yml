@@ -8,7 +8,7 @@ jobs:
       uses: docker://takanabe/github-actions-automate-projects:v0.0.1
       if: github.event_name == 'issues' && github.event.action == 'opened' && github.event.label.name == 'needs-triage' && github.event.label.name == 'enhancement'
       env:
-        GITHUB_TOKEN: ${{ secrets.14b6b0c208202663cf265c4e902b12404a1ea8d2 }}
+        GITHUB_TOKEN: ${{ secrets.automation }}
         GITHUB_PROJECT_URL: https://github.com/orgs/kf5i/projects/2
         GITHUB_PROJECT_COLUMN_NAME: New Ideas/Features Requests
 

@@ -1,0 +1,14 @@
+name: Add a new GitHub issue to the specified project column
+on: [issues, pull_request]
+jobs:
+  add-new-issues-to-project-column:
+    runs-on: ubuntu-latest
+    steps:
+    - name: add-new-issues-to-organization-based-project-column
+      uses: docker://takanabe/github-actions-automate-projects:v0.0.1
+      if: github.event_name == 'issues' && github.event.action == 'opened' && github.event.label.name == 'needs-triage' && github.event.label.name == 'enhancement'
+      env:
+        GITHUB_TOKEN: ${{ secrets.14b6b0c208202663cf265c4e902b12404a1ea8d2 }}
+        GITHUB_PROJECT_URL: https://github.com/orgs/kf5i/projects/2
+        GITHUB_PROJECT_COLUMN_NAME: New Ideas/Features Requests
+

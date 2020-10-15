@@ -21,6 +21,6 @@ jobs:
         contains(github.event.issue.labels.*.name, 'need-triage') && contains(github.event.issue.labels.*.name, 'enhancement') ||
         contains(github.event.pull_request.labels.*.name, 'enhancement') && contains(github.event.pull_request.labels.*.name, 'needs-triage')
       with:
-        project: 'https://github.com/orgs/kf5i/projects/2'
+        project: 'https://github.com/kf5i/k3ai-plugins/projects/1'
         column_name: 'Features Requests'
 

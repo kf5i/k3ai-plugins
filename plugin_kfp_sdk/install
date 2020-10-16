@@ -11,7 +11,14 @@
 info()
 {
     echo '[INFO] ' "$@"
+
 }
+
+notes()
+{
+    echo "$@" >> notes
+}
+
 
 infoL()
 {
@@ -90,9 +97,10 @@ install(){
         info "Can't install kfp pipeline code:" $exitcode 
         exit 1     
     fi
-    info "Pipeline sdk kfp install successfully:" $exitcode 
-    info "virtual env in:" $(pwd)/"venv"
-    info "To activate it: source venv/bin/activate"
+    info "Pipeline sdk kfp install successfully"
+    notes "[plugin_kfp_sdk]" 
+    notes "virtual env in:" $(pwd)/"venv"
+    notes "To activate it: source venv/bin/activate"
 }
 
 install

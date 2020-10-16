@@ -17,6 +17,12 @@ infoL()
     echo -en '[INFO] ' "$@\n"
 }
 
+notes()
+{
+    echo "$@" >> notes
+}
+
+
 sleep_cursor()
 {
  chars="/-\|"
@@ -114,6 +120,9 @@ sleep_cursor
 
 IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "pipelines UI: http://"$IP 
+notes "[plugin_kfpipelines]" 
+notes "pipelines UI: http://"$IP 
+
 }
 
 install

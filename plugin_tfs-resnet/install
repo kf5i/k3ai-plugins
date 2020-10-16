@@ -97,8 +97,7 @@ spec:
   type: LoadBalancer
 EOF
 
-    waiting_pod_array=("k8s-app=kube-dns;kube-system" 
-                       "k8s-app=metrics-server;kube-system"
+    waiting_pod_array=("k8s-app=metrics-server;kube-system"
                        "app=traefik;kube-system"
                        "app=tf-serv-resnet;tf-serving")
 

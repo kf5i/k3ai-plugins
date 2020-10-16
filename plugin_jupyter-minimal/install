@@ -76,6 +76,8 @@ spec:
         ports:
         - containerPort: 8888
           name: jupyter
+        command: ["start-notebook.sh"]
+        args: ["--NotebookApp.token=''"]
 EOF
     k3s kubectl apply -f - << EOF
 apiVersion: v1
@@ -93,9 +95,7 @@ spec:
   type: LoadBalancer
 EOF
 
-    waiting_pod_array=("k8s-app=kube-dns;kube-system" 
-                       "k8s-app=metrics-server;kube-system"
-                       "app=traefik;kube-system"
+    waiting_pod_array=("app=traefik;kube-system"
                        "app=jupyter-srv;jupyter")
 
     for i in "${waiting_pod_array[@]}"; do 

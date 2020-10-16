@@ -102,7 +102,7 @@ EOF
     #   IFS=';' read -ra VALUES <<< "$i"
     #     wait "${VALUES[0]}" "${VALUES[1]}"
     # done
-k3s kubectl exec -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) -- bash "pip install kfp"
+
 
     info "Jupyter Notebook ready!!"
 
@@ -137,7 +137,8 @@ EOF
                 serviceName: "jupyter-minimal-notebook"
                 servicePort: 8888
 EOF
-
+info "Installing KFP SDK"
+k3s kubectl exec -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) -- pip install kfp
 sleep_cursor
 
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)

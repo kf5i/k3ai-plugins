@@ -42,7 +42,7 @@ infoL "Testing.." $1.$2
 while [ : ]
   do
     sleep_cursor &
-    kubectl wait --for condition=available --timeout=14s pod -l  $1  -n $2
+    k3 kubectl wait --for condition=ready --timeout=14s pod -l  $1  -n $2
     status=$?
     
     if [ $status -ne 0 ]
@@ -100,13 +100,13 @@ spec:
   type: LoadBalancer
 EOF
 
-    # waiting_pod_array=("app=jupyter-srv;jupyter")
+    waiting_pod_array=("app=jupyter-srv;jupyter")
 
-    # for i in "${waiting_pod_array[@]}"; do 
-    #   echo "$i"; 
-    #   IFS=';' read -ra VALUES <<< "$i"
-    #     wait "${VALUES[0]}" "${VALUES[1]}"
-    # done
+    for i in "${waiting_pod_array[@]}"; do 
+      echo "$i"; 
+      IFS=';' read -ra VALUES <<< "$i"
+        wait "${VALUES[0]}" "${VALUES[1]}"
+    done
 
 
     info "Jupyter Notebook ready!!"

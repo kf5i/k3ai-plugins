@@ -1,0 +1,89 @@
+#!/bin/bash
+
+#########################################
+### K3ai (keɪ3ai) Plugins - Install Template
+### https://github.com/kf5i/k3ai
+### Alessandro Festa @bringyourownai
+### Gabriele Santomaggio @gsantomaggio
+######################################### 
+
+### do not change this setion ###
+info()
+{
+    echo '[INFO] ' "$@"
+}
+
+infoL()
+{
+    echo -en '[INFO] ' "$@\n"
+}
+
+sleep_cursor()
+{
+ chars="/-\|"
+ for (( z=0; z<7; z++ )); do
+   for (( i=0; i<${#chars}; i++ )); do
+    sleep 0.5
+    echo -en "${chars:$i:1}" "\r"
+  done
+done
+}
+
+
+wait() 
+{
+status=1
+infoL "Testing.." $1.$2  
+while [ : ]
+  do
+    sleep_cursor &
+    kubectl wait --for condition=available --timeout=14s deploy -l  $1   -n $2
+    status=$?
+    
+    if [ $status -ne 0 ]
+    then 
+      infoL "$1 isn't ready yet. This may take a few minutes..."
+      sleep_cursor
+    else
+      break  
+    fi 
+  done
+}
+
+#######
+### Kubeflow pipeline SDK
+install(){
+    info "Check Python3.."
+    if ! command -v python3 &> /dev/null
+    then
+        info "Python3 could not be found"
+        exit 1
+    fi
+
+
+    info "Creating sdk virtual venv"    
+    python3 -m venv venv
+    exitcode=$?
+    if [ $exitcode -ne 0 ] 
+    then
+        info "Can't create venv, exit code:" $exitcode 
+        exit 2     
+    fi 
+
+    info "Setting python3 virtualenv"    
+    source venv/bin/activate
+    exitcode=$?
+    if [ $exitcode -ne 0 ] 
+    then
+        info "Can't set virtual env exit code:" $exitcode 
+        exit 3     
+    fi
+    info "Using Python3 on.."    
+    which python3
+    info "Installing required libraries.."    
+    python3 -m pip install wheel
+    info "Installing Kfp sdk.."    
+    python3 -m pip install kfp kfp-server-api --upgrade 
+}
+
+install

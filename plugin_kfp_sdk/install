@@ -67,7 +67,7 @@ install(){
     if [ $exitcode -ne 0 ] 
     then
         info "Can't create venv, exit code:" $exitcode 
-        exit 2     
+        exit 1     
     fi 
 
     info "Setting python3 virtualenv"    
@@ -76,14 +76,23 @@ install(){
     if [ $exitcode -ne 0 ] 
     then
         info "Can't set virtual env exit code:" $exitcode 
-        exit 3     
+        exit 1    
     fi
     info "Using Python3 on.."    
     which python3
     info "Installing required libraries.."    
     python3 -m pip install wheel
     info "Installing Kfp sdk.."    
-    python3 -m pip install kfp kfp-server-api --upgrade 
+    python3 -m pip install kfp kfp-server-api --upgrade
+    exitcode=$?
+    if [ $exitcode -ne 0 ] 
+    then
+        info "Can't install kfp pipeline code:" $exitcode 
+        exit 1     
+    fi
+    info "Pipeline sdk kfp install successfully:" $exitcode 
+    info "virtual env in:" $(pwd)/"venv"
+    info "To activate it: source venv/bin/activate"
 }
 
 install

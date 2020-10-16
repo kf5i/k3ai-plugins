@@ -51,7 +51,7 @@ while [ : ]
 }
 
 #######
-### Kubeflow pipelines login as example, change it accordingly with your needs
+install(){
  k3s kubectl create ns jupyter
     k3s kubectl apply -f - << EOF
 apiVersion: apps/v1

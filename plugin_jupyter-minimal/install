@@ -102,7 +102,7 @@ EOF
     #   IFS=';' read -ra VALUES <<< "$i"
     #     wait "${VALUES[0]}" "${VALUES[1]}"
     # done
-k3s kubectl execute -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) bash -c "pip install kfp"
+k3s kubectl exec -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) bash -c "pip install kfp"
 
     info "Jupyter Notebook ready!!"
 

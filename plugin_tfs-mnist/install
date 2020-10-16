@@ -62,19 +62,17 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tf-serv-resnet
+      app: tf-serv-mnist
   template:
     metadata:
       labels:
-        app: tf-serv-resnet
+        app: tf-serv-mnist
     spec:
       containers:
       - name: tf-server
-        image: gcr.io/tensorflow-serving/resnet
+        image: gcr.io/tensorflow-serving/mnist
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8500
-          name: grcp
         - containerPort: 8501
           name: rest
 EOF
@@ -86,11 +84,8 @@ metadata:
   namespace: tf-serving
 spec:
   selector:
-    app: tf-serv-resnet
+    app: tf-serv-mnist
   ports:
-    - name: grpc
-      port: 8500
-      targetPort: 8500
     - name: rest
       port: 8501
       targetPort: 8501
@@ -100,7 +95,7 @@ EOF
     waiting_pod_array=("k8s-app=kube-dns;kube-system" 
                        "k8s-app=metrics-server;kube-system"
                        "app=traefik;kube-system"
-                       "app=tf-serv-resnet;tf-serving")
+                       "app=tf-serv-mnist;tf-serving")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 
@@ -140,15 +135,13 @@ EOF
             - path: "/"
               backend:
                 serviceName: "tf-server-serving"
-                servicePort: 8500
                 servicePort: 8501
 EOF
 
 sleep_cursor
 
 IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
-info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/resnet"
-info "Tensorflow Serving  gRPC Endpoint at: http://"$IP":8500/v1/models/resnet"
+info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/mnist"
 
 }
 

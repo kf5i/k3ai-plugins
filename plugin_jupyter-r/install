@@ -29,10 +29,6 @@ sleep_cursor()
 done
 }
 
-notes()
-{
-    echo "$@" >> notes
-}
 
 wait() 
 {
@@ -61,7 +57,7 @@ install(){
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jupyter-r-notebook
+  name: jupyter-minimal
   namespace: jupyter
 spec:
   replicas: 1
@@ -74,8 +70,8 @@ spec:
         app: jupyter-srv
     spec:
       containers:
-      - name: jupyter-r-notebook
-        image: jupyter/r-notebook
+      - name: jupyter-minimal
+        image: jupyter/minimal-notebook
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888
@@ -87,7 +83,7 @@ EOF
 apiVersion: v1
 kind: Service
 metadata:
-  name: jupyter-r-notebook-service
+  name: jupyter-minimal-service
   namespace: jupyter
 spec:
   selector:
@@ -138,7 +134,7 @@ EOF
             paths:
             - path: "/"
               backend:
-                serviceName: "jupyter-r-notebook"
+                serviceName: "jupyter-minimal-notebook"
                 servicePort: 8888
 EOF
 info "Installing KFP SDK"
@@ -150,7 +146,5 @@ info "Jupyter Notebook UI ready at: http://"$IP":8888"
 }
 
 install
-notes "[plugin_jupyter-r]" 
-notes "Jupyter Notebook URL: http://"$IP":8888"
 
 #######

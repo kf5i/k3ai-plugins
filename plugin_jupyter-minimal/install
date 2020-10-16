@@ -1,12 +1,13 @@
 #!/bin/bash
 
 #########################################
-### K3ai (keɪ3ai) Plugins - Tensorflow Serving
+### K3ai (keɪ3ai) Plugins - Install Template
 ### https://github.com/kf5i/k3ai
 ### Alessandro Festa @bringyourownai
 ### Gabriele Santomaggio @gsantomaggio
 ######################################### 
 
+### do not change this setion ###
 info()
 {
     echo '[INFO] ' "$@"
@@ -36,7 +37,7 @@ infoL "Testing.." $1.$2
 while [ : ]
   do
     sleep_cursor &
-    k3s kubectl wait --for condition=ready --timeout=14s pod -l  $1   -n $2
+    kubectl wait --for condition=available --timeout=14s pod -l  $1  -n $2
     status=$?
     
     if [ $status -ne 0 ]
@@ -49,66 +50,61 @@ while [ : ]
   done
 }
 
+#######
 install(){
-    info "Installing Tensorflow Serving crd"
-    k3s kubectl create ns tf-serving
+ k3s kubectl create ns jupyter
     k3s kubectl apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tf-server 
-  namespace: tf-serving
+  name: jupyter-minimal
+  namespace: jupyter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tf-serv-resnet
+      app: jupyter-srv
   template:
     metadata:
       labels:
-        app: tf-serv-resnet
+        app: jupyter-srv
     spec:
       containers:
-      - name: tf-server
-        image: gcr.io/tensorflow-serving/resnet
+      - name: jupyter-minimal
+        image: jupyter/minimal-notebook
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8500
-          name: grcp
-        - containerPort: 8501
-          name: rest
+        - containerPort: 8888
+          name: jupyter
+        command: ["start-notebook.sh"]
+        args: ["--NotebookApp.token=''"]
 EOF
     k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: Service
 metadata:
-  name: tf-server-service
-  namespace: tf-serving
+  name: jupyter-minimal-service
+  namespace: jupyter
 spec:
   selector:
-    app: tf-serv-resnet
+    app: jupyter-srv
   ports:
-    - name: grpc
-      port: 8500
-      targetPort: 8500
-    - name: rest
-      port: 8501
-      targetPort: 8501
+    - name: jupyter
+      port: 8888
+      targetPort: 8888
   type: LoadBalancer
 EOF
 
-    waiting_pod_array=("k8s-app=metrics-server;kube-system"
-                       "app=traefik;kube-system"
-                       "app=tf-serv-resnet;tf-serving")
+    # waiting_pod_array=("app=jupyter-srv;jupyter")
 
-    for i in "${waiting_pod_array[@]}"; do 
-      echo "$i"; 
-      IFS=';' read -ra VALUES <<< "$i"
-        wait "${VALUES[0]}" "${VALUES[1]}"
-    done
+    # for i in "${waiting_pod_array[@]}"; do 
+    #   echo "$i"; 
+    #   IFS=';' read -ra VALUES <<< "$i"
+    #     wait "${VALUES[0]}" "${VALUES[1]}"
+    # done
 
 
-    info "Tensorflow Serving ready!!"
+    info "Jupyter Notebook ready!!"
 
     info "Defining the ingress"
     sleep_cursor
@@ -126,8 +122,8 @@ EOF
       apiVersion: "networking.k8s.io/v1beta1"
       kind: "Ingress"
       metadata:
-        name: "tf-serving-ingress"
-        namespace: tf-serving
+        name: "jupyter-notebook-ingress"
+        namespace: jupyter
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
           
@@ -138,17 +134,17 @@ EOF
             paths:
             - path: "/"
               backend:
-                serviceName: "tf-server-serving"
-                servicePort: 8500
-                servicePort: 8501
+                serviceName: "jupyter-minimal-notebook"
+                servicePort: 8888
 EOF
-
+info "Installing KFP SDK"
+k3s kubectl exec -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) -- pip install kfp
 sleep_cursor
 
-IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
-info "Tensorflow Serving  REST Endpoint at: http://"$IP":8501/v1/models/resnet"
-info "Tensorflow Serving  gRPC Endpoint at: http://"$IP":8500/v1/models/resnet"
-
+IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
+info "Jupyter Notebook UI ready at: http://"$IP":8888" 
 }
 
 install
+
+#######

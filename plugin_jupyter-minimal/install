@@ -72,6 +72,7 @@ spec:
       containers:
       - name: jupyter-minimal
         image: jupyter/minimal-notebook
+        command: [jupyter-notebook --ip='*' --NotebookApp.token='' --NotebookApp.password='' --no-browser --allow-root]
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888

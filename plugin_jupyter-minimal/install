@@ -142,7 +142,7 @@ EOF
                 servicePort: 8888
 EOF
 info "Installing KFP SDK"
-k3s kubectl exec -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) -- pip install kfp
+k3s kubectl exec -n jupyter $(k3s kubectl get pod -n jupyter -l app=jupyter-srv -o name) -- pip install kfp
 sleep_cursor
 
 IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)

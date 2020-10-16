@@ -95,8 +95,7 @@ spec:
   type: LoadBalancer
 EOF
 
-    waiting_pod_array=("app=traefik;kube-system"
-                       "app=jupyter-srv;jupyter")
+    waiting_pod_array=("app=jupyter-srv;jupyter")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 

@@ -37,7 +37,7 @@ infoL "Testing.." $1.$2
 while [ : ]
   do
     sleep_cursor &
-    kubectl wait --for condition=running --timeout=14s pod -l  $1   -n $2
+    kubectl wait --for condition=available --timeout=14s pod -l  $1  -n $2
     status=$?
     
     if [ $status -ne 0 ]
@@ -76,7 +76,7 @@ spec:
         ports:
         - containerPort: 8888
           name: jupyter
-        command: ["pip install kfp && start-notebook.sh"]
+        command: ["start-notebook.sh"]
         args: ["--NotebookApp.token=''"]
 EOF
     k3s kubectl apply -f - << EOF
@@ -137,7 +137,7 @@ EOF
                 serviceName: "jupyter-minimal-notebook"
                 servicePort: 8888
 EOF
-
+k3s kubectl execute -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name) bash -c "pip install kfp"
 sleep_cursor
 
 IP=$(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)

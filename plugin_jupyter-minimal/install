@@ -72,9 +72,10 @@ spec:
       containers:
       - name: jupyter-minimal
         image: jupyter/minimal-notebook
+        command: [/opt/conda/bin/jupyter-notebook --ip='*' --port=8080 --NotebookApp.token='' --NotebookApp.password='' --no-browser --allow-root]
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8888
+        - containerPort: 8080
           name: jupyter
 EOF
     k3s kubectl apply -f - << EOF
@@ -88,8 +89,8 @@ spec:
     app: jupyter-srv
   ports:
     - name: jupyter
-      port: 8888
-      targetPort: 8888
+      port: 8080
+      targetPort: 8080
   type: LoadBalancer
 EOF
 
@@ -136,7 +137,7 @@ EOF
             - path: "/"
               backend:
                 serviceName: "jupyter-minimal-serving"
-                servicePort: 8888
+                servicePort: 8080
 EOF
 
 sleep_cursor

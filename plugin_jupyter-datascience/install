@@ -34,6 +34,7 @@ notes()
     echo "$@" >> notes
 }
 
+
 wait() 
 {
 status=1
@@ -61,7 +62,7 @@ install(){
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jupyter-minimal
+  name: jupyter-datascience
   namespace: jupyter
 spec:
   replicas: 1
@@ -74,8 +75,8 @@ spec:
         app: jupyter-srv
     spec:
       containers:
-      - name: jupyter-minimal
-        image: jupyter/minimal-notebook
+      - name: jupyter-datascience
+        image: jupyter/datascience-notebook
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888
@@ -87,7 +88,7 @@ EOF
 apiVersion: v1
 kind: Service
 metadata:
-  name: jupyter-minimal-service
+  name: jupyter-datascience-service
   namespace: jupyter
 spec:
   selector:
@@ -126,7 +127,7 @@ EOF
       apiVersion: "networking.k8s.io/v1beta1"
       kind: "Ingress"
       metadata:
-        name: "jupyter-minimal-ingress"
+        name: "jupyter-notebook-ingress"
         namespace: jupyter
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -138,7 +139,7 @@ EOF
             paths:
             - path: "/"
               backend:
-                serviceName: "jupyter-minimal"
+                serviceName: "jupyter-datascience-notebook"
                 servicePort: 8888
 EOF
 info "Installing KFP SDK"
@@ -150,7 +151,7 @@ info "Jupyter Notebook UI ready at: http://"$IP":8888"
 }
 
 install
-notes "[plugin_kfpipelines]" 
-notes "pipelines UI: http://"$IP":8888"
+notes [plugin_jupyter-datascience]
+notes "Jupyter Notebook Datascience URL:http://"$IP":8888"
 
 #######

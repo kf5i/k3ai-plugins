@@ -41,7 +41,7 @@ infoL "Testing.." $1.$2
 while [ : ]
   do
     sleep_cursor &
-    k3s kubectl wait --for condition=ready --timeout=14s pod -l  $1  -n $2
+    k3s kubectl wait --for condition=available --timeout=14s pod -l  $1  -n $2
     status=$?
     
     if [ $status -ne 0 ]
@@ -61,7 +61,7 @@ install(){
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jupyter-minimal
+  name: jupyter-pyspark
   namespace: jupyter
 spec:
   replicas: 1
@@ -74,8 +74,8 @@ spec:
         app: jupyter-srv
     spec:
       containers:
-      - name: jupyter-minimal
-        image: jupyter/minimal-notebook
+      - name: jupyter-pyspark
+        image: jupyter/pyspark-notebook
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8888
@@ -87,7 +87,7 @@ EOF
 apiVersion: v1
 kind: Service
 metadata:
-  name: jupyter-minimal-service
+  name: jupyter-pyspark-service
   namespace: jupyter
 spec:
   selector:
@@ -126,7 +126,7 @@ EOF
       apiVersion: "networking.k8s.io/v1beta1"
       kind: "Ingress"
       metadata:
-        name: "jupyter-minimal-ingress"
+        name: "jupyter-notebook-ingress"
         namespace: jupyter
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -138,7 +138,7 @@ EOF
             paths:
             - path: "/"
               backend:
-                serviceName: "jupyter-minimal"
+                serviceName: "jupyter-pyspark-notebook"
                 servicePort: 8888
 EOF
 info "Installing KFP SDK"
@@ -150,7 +150,6 @@ info "Jupyter Notebook UI ready at: http://"$IP":8888"
 }
 
 install
-notes "[plugin_kfpipelines]" 
-notes "pipelines UI: http://"$IP":8888"
-
+notes "[plugin_jupyter-pyspark]" 
+notes "Jupyter Notebook pyspark UI: http://"$IP":8888"
 #######

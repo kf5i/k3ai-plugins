@@ -256,6 +256,7 @@ spec:
   type: LoadBalancer
 EOF
 
+
     waiting_pod_array=("name=pytorch-operator;kubeflow")
 
     for i in "${waiting_pod_array[@]}"; do 

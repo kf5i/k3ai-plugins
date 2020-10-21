@@ -296,7 +296,7 @@ spec:
       serviceAccountName: tf-job-operator
 EOF
 
-    waiting_pod_array=("app: tf-job-operator;kubeflow")
+    waiting_pod_array=("tf-job-operator;kubeflow")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 

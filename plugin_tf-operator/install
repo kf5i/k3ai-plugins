@@ -1,0 +1,317 @@
+#!/bin/bash
+
+#########################################
+### K3ai (keɪ3ai) Plugins - Install Tensorflow Operator (Kubeflow namespace)
+### https://github.com/kf5i/k3ai
+### Alessandro Festa @bringyourownai
+### Gabriele Santomaggio @gsantomaggio
+######################################### 
+
+### do not change this setion ###
+info()
+{
+    echo '[INFO] ' "$@"
+}
+
+infoL()
+{
+    echo -en '[INFO] ' "$@\n"
+}
+
+sleep_cursor()
+{
+ chars="/-\|"
+ for (( z=0; z<7; z++ )); do
+   for (( i=0; i<${#chars}; i++ )); do
+    sleep 0.5
+    echo -en "${chars:$i:1}" "\r"
+  done
+done
+}
+
+notes()
+{
+    echo "$@" >> notes
+}
+
+wait() 
+{
+status=1
+infoL "Testing.." $1.$2  
+while [ : ]
+  do
+    sleep_cursor &
+    k3s kubectl wait --for condition=ready --timeout=14s pod -l  $1  -n $2
+    status=$?
+    
+    if [ $status -ne 0 ]
+    then 
+      infoL "$1 isn't ready yet. This may take a few minutes..."
+      sleep_cursor
+    else
+      break  
+    fi 
+  done
+}
+
+#######
+install(){
+     k3s kubectl apply -f - << EOF
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: tfjobs.kubeflow.org
+spec:
+  additionalPrinterColumns:
+  - JSONPath: .status.conditions[-1:].type
+    name: State
+    type: string
+  - JSONPath: .metadata.creationTimestamp
+    name: Age
+    type: date
+  group: kubeflow.org
+  names:
+    kind: TFJob
+    plural: tfjobs
+    singular: tfjob
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      properties:
+        spec:
+          properties:
+            tfReplicaSpecs:
+              properties:
+                Chief:
+                  properties:
+                    replicas:
+                      maximum: 1
+                      minimum: 1
+                      type: integer
+                PS:
+                  properties:
+                    replicas:
+                      minimum: 1
+                      type: integer
+                Worker:
+                  properties:
+                    replicas:
+                      minimum: 1
+                      type: integer
+  versions:
+  - name: v1
+    served: true
+    storage: true
+EOF
+
+k3s kubectl apply -f - << EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: tf-job-dashboard
+    kustomize.component: tf-job-operator
+  name: tf-job-dashboard
+  namespace: kubeflow
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: tf-job-operator
+    kustomize.component: tf-job-operator
+  name: tf-job-operator
+  namespace: kubeflow
+---
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.authorization.kubeflow.org/aggregate-to-kubeflow-tfjobs-admin: "true"
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    kustomize.component: tf-job-operator
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-admin: "true"
+  name: kubeflow-tfjobs-admin
+rules: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    kustomize.component: tf-job-operator
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-tfjobs-admin: "true"
+  name: kubeflow-tfjobs-edit
+rules:
+- apiGroups:
+  - kubeflow.org
+  resources:
+  - tfjobs
+  - tfjobs/status
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    kustomize.component: tf-job-operator
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-view: "true"
+  name: kubeflow-tfjobs-view
+rules:
+- apiGroups:
+  - kubeflow.org
+  resources:
+  - tfjobs
+  - tfjobs/status
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  labels:
+    app: tf-job-operator
+    kustomize.component: tf-job-operator
+  name: tf-job-operator
+rules:
+- apiGroups:
+  - kubeflow.org
+  resources:
+  - tfjobs
+  - tfjobs/status
+  - tfjobs/finalizers
+  verbs:
+  - '*'
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - services
+  - endpoints
+  - events
+  verbs:
+  - '*'
+- apiGroups:
+  - apps
+  - extensions
+  resources:
+  - deployments
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: tf-job-operator
+    kustomize.component: tf-job-operator
+  name: tf-job-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tf-job-operator
+subjects:
+- kind: ServiceAccount
+  name: tf-job-operator
+  namespace: kubeflow
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: "8443"
+    prometheus.io/scrape: "true"
+  labels:
+    app: tf-job-operator
+    kustomize.component: tf-job-operator
+  name: tf-job-operator
+  namespace: kubeflow
+spec:
+  ports:
+  - name: monitoring-port
+    port: 8443
+    targetPort: 8443
+  selector:
+    kustomize.component: tf-job-operator
+    name: tf-job-operator
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    kustomize.component: tf-job-operator
+  name: tf-job-operator
+  namespace: kubeflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      kustomize.component: tf-job-operator
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        kustomize.component: tf-job-operator
+        name: tf-job-operator
+    spec:
+      containers:
+      - args:
+        - --alsologtostderr
+        - -v=1
+        - --monitoring-port=8443
+        env:
+        - name: MY_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MY_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: gcr.io/kubeflow-images-public/tf_operator:vmaster-ga2ae7bff
+        name: tf-job-operator
+      serviceAccountName: tf-job-operator
+EOF
+
+    waiting_pod_array=("name=tf-job-operator;kubeflow")
+
+    for i in "${waiting_pod_array[@]}"; do 
+      echo "$i"; 
+      IFS=';' read -ra VALUES <<< "$i"
+        wait "${VALUES[0]}" "${VALUES[1]}"
+    done
+
+
+    info "Tensorflow Operator ready!!"
+
+    info "Defining the ingress"
+    sleep_cursor
+}
+
+install
+notes "[plugin_tensorflow-operator]" 
+
+#######

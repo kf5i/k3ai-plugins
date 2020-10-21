@@ -255,7 +255,7 @@ spec:
   selector:
     kustomize.component: tf-job-operator
     name: tf-job-operator
-  type: ClusterIP
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment

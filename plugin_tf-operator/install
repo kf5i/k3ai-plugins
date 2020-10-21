@@ -41,7 +41,7 @@ infoL "Testing.." $1.$2
 while [ : ]
   do
     sleep_cursor &
-    k3s kubectl wait --for condition=ready --timeout=14s pod -l  $1  -n $2
+    k3s kubectl wait --for condition=available --timeout=14s deploy -l  $1   -n $2
     status=$?
     
     if [ $status -ne 0 ]
@@ -296,7 +296,7 @@ spec:
       serviceAccountName: tf-job-operator
 EOF
 
-    waiting_pod_array=("tf-job-operator;kubeflow")
+    waiting_pod_array=("name=tf-job-operator;kubeflow")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 

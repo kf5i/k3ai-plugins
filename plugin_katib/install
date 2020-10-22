@@ -860,7 +860,7 @@ spec:
   hostPath:
     path: /tmp/katib
 EOF
-    waiting_pod_array=("app: katib-controller;kubeflow",
+    waiting_pod_array=("app=katib-controller;kubeflow",
                        "app=katib;kubeflow")
 
     for i in "${waiting_pod_array[@]}"; do 

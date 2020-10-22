@@ -251,7 +251,7 @@ spec:
   ports:
   - name: monitoring-port
     port: 8443
-    targetPort: 8443
+    targetPort: 9443
   selector:
     kustomize.component: tf-job-operator
     name: tf-job-operator

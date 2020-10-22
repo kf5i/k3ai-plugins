@@ -64,6 +64,7 @@ metadata:
   labels:
     katib-metricscollector-injection: enabled
 EOF
+sleep_cursor
 k3s kubectl apply -f - << EOF
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
@@ -155,7 +156,7 @@ spec:
     status: {}
   version: v1alpha3
 EOF
-
+sleep_cursor
     k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -851,7 +852,7 @@ spec:
           name: ui
       serviceAccountName: katib-ui
 EOF
-
+sleep_cursor
     k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: PersistentVolume

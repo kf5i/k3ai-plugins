@@ -63,7 +63,8 @@ metadata:
   name: kubeflow
   labels:
     katib-metricscollector-injection: enabled
----
+EOF
+k3s kubectl apply -f - << EOF
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -156,7 +157,8 @@ spec:
       - all
       - kubeflow
       - katib
----
+EOF
+k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:

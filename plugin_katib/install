@@ -157,8 +157,7 @@ spec:
       - all
       - kubeflow
       - katib
-EOF
-k3s kubectl apply -f - << EOF
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -464,7 +463,9 @@ data:
                     - "/var/mnist.py"
                     - "--lr=${trialParameters.learningRate}"
                     - "--momentum=${trialParameters.momentum}"
----
+EOF
+
+    k3s kubectl apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -531,7 +532,9 @@ spec:
   selector:
     app: katib
     component: db-manager
----
+EOF
+    
+    k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -562,7 +565,9 @@ spec:
   resources:
     requests:
       storage: 10Gi
----
+EOF
+    
+    k3s kubectl apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -655,7 +660,9 @@ spec:
   selector:
     app: katib
     component: mysql
----
+EOF
+   
+    k3s kubectl apply -f - << EOF
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -754,24 +761,6 @@ spec:
     app: katib
     component: ui
 EOF
-
-k3s kubectl apply -f - << EOF
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: katib-mysql
-  labels:
-    type: local
-    app: katib
-spec:
-  storageClassName: katib
-  capacity:
-    storage: 10Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: /tmp/katib
-EOF
     waiting_pod_array=("app=katib;kubeflow")
 
     for i in "${waiting_pod_array[@]}"; do 
@@ -810,7 +799,7 @@ EOF
             paths:
             - path: "/katib"
               backend:
-                serviceName: "pytorch-operator"
+                serviceName: "katib-ui"
                 servicePort: 80
 EOF
 

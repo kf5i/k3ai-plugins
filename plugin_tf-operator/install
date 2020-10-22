@@ -335,7 +335,7 @@ EOF
             - path: "/metrics"
               backend:
                 serviceName: "tf-job-operator"
-                servicePort: 8443
+                servicePort: 9443
 EOF
 }
 

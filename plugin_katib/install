@@ -862,7 +862,8 @@ spec:
   hostPath:
     path: /tmp/katib
 EOF
-    waiting_pod_array=("app=katib;kubeflow")
+    waiting_pod_array=("app: katib-controller;kubeflow",
+                       "app=katib;kubeflow")
 
     for i in "${waiting_pod_array[@]}"; do 
       echo "$i"; 
@@ -905,8 +906,6 @@ EOF
 EOF
 }
 
-info "Installing KFP SDK"
-k3s kubectl exec -n jupyter $(k3s kubectl get pod -n jupyter -l app=jupyter-srv -o name) -- pip install kfp
 sleep_cursor
 
 IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)

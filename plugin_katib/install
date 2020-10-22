@@ -904,16 +904,16 @@ EOF
                 serviceName: "pytorch-operator"
                 servicePort: 80
 EOF
-}
 
 sleep_cursor
 
 IP=$(k3s kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)
 info "Katib UI ready at: http://"$IP"/katib" 
+
+notes "[plugin_katib]" 
+notes "pipelines UI: http://"$IP"/katib"
 }
 
-install
-notes "[plugin_katib]" 
-notes "pipelines UI: http://"$IP"/katib" 
+install 
 
 #######

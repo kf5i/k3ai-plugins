@@ -783,8 +783,8 @@ spec:
             secretKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: katib-mysql-secrets
-        - name: MYSQL_ALLOW_EMPTY_PASSWORD
-          value: "false"
+#        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+#          value: "false"
         - name: MYSQL_DATABASE
           value: katib
         image: mysql:8

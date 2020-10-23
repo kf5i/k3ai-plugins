@@ -603,7 +603,7 @@ metadata:
 spec:
   ports:
   - name: dbapi
-    port: 3307
+    port: 3306
     protocol: TCP
   selector:
     app: katib
@@ -784,7 +784,7 @@ spec:
               key: MYSQL_ROOT_PASSWORD
               name: katib-mysql-secrets
         - name: MYSQL_ALLOW_EMPTY_PASSWORD
-          value: "true"
+          value: "false"
         - name: MYSQL_DATABASE
           value: katib
         image: mysql:8
@@ -794,12 +794,12 @@ spec:
             - /bin/bash
             - -c
             - mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
+          initialDelaySeconds: 40
+          periodSeconds: 20
+          timeoutSeconds: 10
         name: katib-mysql
         ports:
-        - containerPort: 3307
+        - containerPort: 3306
           name: dbapi
         readinessProbe:
           exec:

@@ -64,7 +64,6 @@ metadata:
   labels:
     katib-metricscollector-injection: enabled
 EOF
-sleep_cursor
 k3s kubectl apply -f - << EOF
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
@@ -156,7 +155,6 @@ spec:
     status: {}
   version: v1alpha3
 EOF
-sleep_cursor
     k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -349,13 +347,13 @@ data:
   metrics-collector-sidecar: |-
     {
       "StdOut": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/file-metrics-collector:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/file-metrics-collector"
       },
       "File": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/file-metrics-collector:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/file-metrics-collector"
       },
       "TensorFlowEvent": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/tfevent-metrics-collector:ce89cbf",
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/tfevent-metrics-collector",
         "resources": {
           "limits": {
             "memory": "1Gi"
@@ -366,22 +364,22 @@ data:
   suggestion: |-
     {
       "random": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-hyperopt:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-hyperopt"
       },
       "grid": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-chocolate:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-chocolate"
       },
       "hyperband": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-hyperband:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-hyperband"
       },
       "bayesianoptimization": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-skopt:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-skopt"
       },
       "tpe": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-hyperopt:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-hyperopt"
       },
       "enas": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-enas:ce89cbf",
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-enas",
         "imagePullPolicy": "Always",
         "resources": {
           "limits": {
@@ -390,10 +388,10 @@ data:
         }
       },
       "cmaes": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-goptuna:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-goptuna"
       },
       "darts": {
-        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-darts:ce89cbf"
+        "image": "gcr.io/kubeflow-images-public/katib/v1alpha3/suggestion-darts"
       }
     }
 kind: ConfigMap
@@ -667,7 +665,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: gcr.io/kubeflow-images-public/katib/v1alpha3/katib-controller:ce89cbf
+        image: gcr.io/kubeflow-ci/katib/katib-controller:latest
         imagePullPolicy: IfNotPresent
         name: katib-controller
         ports:
@@ -722,7 +720,7 @@ spec:
             secretKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: katib-mysql-secrets
-        image: gcr.io/kubeflow-images-public/katib/v1alpha3/katib-db-manager:ce89cbf
+        image: gcr.io/kubeflow-images-public/katib/v1alpha3/katib-db-manager
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -811,6 +809,7 @@ spec:
         persistentVolumeClaim:
           claimName: katib-mysql
 ---
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -844,7 +843,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: gcr.io/kubeflow-images-public/katib/v1alpha3/katib-ui:ce89cbf
+        image: gcr.io/kubeflow-images-public/katib/v1alpha3/katib-ui
         imagePullPolicy: IfNotPresent
         name: katib-ui
         ports:
@@ -852,7 +851,7 @@ spec:
           name: ui
       serviceAccountName: katib-ui
 EOF
-sleep_cursor
+
     k3s kubectl apply -f - << EOF
 apiVersion: v1
 kind: PersistentVolume
@@ -862,7 +861,7 @@ metadata:
     type: local
     app: katib
 spec:
-  storageClassName: katib
+  storageClassName: local-path
   capacity:
     storage: 10Gi
   accessModes:

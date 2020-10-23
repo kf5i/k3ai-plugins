@@ -776,7 +776,7 @@ spec:
       containers:
       - args:
         - --datadir
-        - /var/lib/mysql/datadir
+        - /var/lib/mysql/datadir-katib
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -811,7 +811,7 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 1
         volumeMounts:
-        - mountPath: /var/lib/mysql
+        - mountPath: /var/lib/mysql-katib
           name: katib-mysql
       volumes:
       - name: katib-mysql

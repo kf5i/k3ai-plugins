@@ -783,8 +783,8 @@ spec:
             secretKeyRef:
               key: MYSQL_ROOT_PASSWORD
               name: katib-mysql-secrets
-#        - name: MYSQL_ALLOW_EMPTY_PASSWORD
-#          value: "false"
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "false"
         - name: MYSQL_DATABASE
           value: katib
         image: mysql:8
@@ -801,15 +801,6 @@ spec:
         ports:
         - containerPort: 3306
           name: dbapi
-        readinessProbe:
-          exec:
-            command:
-            - /bin/bash
-            - -c
-            - mysql -D ${MYSQL_DATABASE} -u root -p${MYSQL_ROOT_PASSWORD} -e 'SELECT 1'
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 1
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: katib-mysql

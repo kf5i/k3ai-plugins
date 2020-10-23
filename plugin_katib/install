@@ -603,7 +603,7 @@ metadata:
 spec:
   ports:
   - name: dbapi
-    port: 3306
+    port: 3307
     protocol: TCP
   selector:
     app: katib
@@ -776,7 +776,7 @@ spec:
       containers:
       - args:
         - --datadir
-        - /var/lib/mysql/datadir-katib
+        - /var/lib/mysql/datadir
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -799,7 +799,7 @@ spec:
           timeoutSeconds: 5
         name: katib-mysql
         ports:
-        - containerPort: 3306
+        - containerPort: 3307
           name: dbapi
         readinessProbe:
           exec:
@@ -811,7 +811,7 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 1
         volumeMounts:
-        - mountPath: /var/lib/mysql-katib
+        - mountPath: /var/lib/mysql
           name: katib-mysql
       volumes:
       - name: katib-mysql

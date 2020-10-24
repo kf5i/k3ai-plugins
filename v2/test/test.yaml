@@ -1,5 +1,10 @@
 plugin-name: Test
-namespaces:
-  - argo
 yaml:
-  - "https://raw.githubusercontent.com/argoproj/argo/stable/manifests/namespace-install.yaml"
+  - url: "https://raw.githubusercontent.com/argoproj/argo/stable/manifests/namespace-install.yaml"
+    namespace: "argo"
+    type: "file"
+
+  - url: "https://raw.githubusercontent.com/argoproj/argo/stable/manifests/namespace-install.yaml"
+    namespace: "argo"
+    type: "kustomize"
+    

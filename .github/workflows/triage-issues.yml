@@ -8,7 +8,8 @@ on:
     types: [created,opened, labeled, edited, reopened]
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-
+  GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+  
 jobs:
   assign_one_project:
     runs-on: ubuntu-latest

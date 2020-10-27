@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+name: Auto Assign to Project(s)
+
+on:
+  issues:
+    types: [created,opened, labeled, edited, reopened]
+  pull_request:
+    types: [created,opened, labeled, edited, reopened]
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+
+jobs:
+  assign_one_project:
+    runs-on: ubuntu-latest
+    name: Assign to One Project
+    steps:
+    - name: Assign NEW issues and NEW pull requests to public roadmap
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if:  contains(github.event.issue.title.*.name, '[feat:]')
+      with:
+        project: 'https://github.com/orgs/kf5i/projects/2'
+        column_name: 'Features Requests'
+        label-name: |
+          "needs-triage"
+          | 
+          "enhancement"
+
+        

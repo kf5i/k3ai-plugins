@@ -3,9 +3,9 @@ name: Auto Assign to Project(s)
 
 on:
   issues:
-    types: [created,opened,reopened]
+    types: [created,opened,reopened,edited]
   pull_request:
-    types: [created,opened,reopened]
+    types: [created,opened,reopened,edited]
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
   

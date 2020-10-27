@@ -24,7 +24,7 @@ jobs:
     - name: Add labels
       uses: ActionsRML/add-labels-to-issue@v1
       with:
-        issue_number: current
+        #issue_number: current
         labels: |
           needs-triage
           enhancement

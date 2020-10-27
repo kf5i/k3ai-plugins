@@ -16,10 +16,7 @@ jobs:
     steps:
     - name: Assign NEW issues and NEW pull requests to project 2
       uses: srggrs/assign-one-project-github-action@1.2.0
-      if:  |
-         contains(github.event.issue.labels.*.name, 'needs-triage') ||
-         contains(github.event.pull_request.labels.*.name, 'needs-triage')
-         github.event.action == 'opened'
+      if:  contains(github.event.issue.labels.*.name, 'needs-triage') || contains(github.event.pull_request.labels.*.name, 'needs-triage')
       with:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'

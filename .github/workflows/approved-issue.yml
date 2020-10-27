@@ -19,6 +19,7 @@ jobs:
             needs-triage
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/approved') }}
         with:
           labels: |
             approved
@@ -31,10 +32,14 @@ jobs:
             needs-triage
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/roadmap') }}
         with:
           labels: |
             roadmap
       - uses: srggrs/assign-one-project-github-action@1.2.0
+        if: |
+         ${{ startsWith(github.event.comment.body, '/approved') }}
+         ${{ startsWith(github.event.comment.body, '/roadmap') }}
         with:
           project: 'https://github.com/orgs/kf5i/projects/2'
           column_name: 'Approved'

@@ -22,6 +22,15 @@ jobs:
         labels: |
           needs-triage
           enhancement
+    - uses: bubkoo/auto-comment@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        issuesOpenedReactions: 'hooray, +1'
+        issuesOpenedComment: >
+          👋 @{{ author }}
+
+          Thank you for raising an issue. We will investigate into the matter and get back to you as soon as possible.
+          Please make sure you have given us as much context as possible.
     - uses: srggrs/assign-one-project-github-action@1.2.0
       if:  contains(github.event.issue.title, '[feat:]')
       with:
@@ -33,6 +42,15 @@ jobs:
       with:
         labels: |
           bug
+    - uses: bubkoo/auto-comment@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        issuesOpenedReactions: 'eyes, +1'
+        issuesOpenedComment: >
+          👋 @{{ author }}
+
+          Thank you for raising a bug. We will investigate into the matter and get back to you as soon as possible.
+          Please make sure you have given us as much context as possible.
 
     #PR's are always opened in the "In Progress" column
     - uses: srggrs/assign-one-project-github-action@1.2.0

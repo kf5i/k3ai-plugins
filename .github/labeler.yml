@@ -26,15 +26,6 @@ comments:
 #    - 'include' patterns will associate a label if any of these patterns match
 #    - 'exclude' patterns will ignore this label if any of these patterns match
 labels:
-  'bug':
-    include:
-      - '\b[bug:]?\b'
-    exclude: '\b\[enhancement?]\b'
-  'help wanted':
-    include:
-      - '\bhelp( me)?\b'
-    exclude:
-      - '\b\[test(ing)?\]\b'
   'enhancement':
     include:
       - '\b[feat:]\b'

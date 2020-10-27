@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-remove-labels@v1
-        if: contains(github.event.issue.labels.*.name, 'needs-triage') && ${{ contains(github.event.comment.body, '/approved') }} ||  contains(github.event.issue.labels.*.name, 'needs-triage') && || ${{ contains(github.event.comment.body, '/roadmap') }}
+        if: contains(github.event.issue.labels.*.name, 'needs-triage') && ${{ contains(github.event.comment.body, '/approved') }} ||  contains(github.event.issue.labels.*.name, 'needs-triage') && ${{ contains(github.event.comment.body, '/roadmap') }}
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: |

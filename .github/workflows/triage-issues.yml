@@ -21,9 +21,12 @@ jobs:
       with:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'
-        # Labels to add
+    - name: Add labels
+      uses: ActionsRML/add-labels-to-issue@v1
+      with:
+        issue_number: current
         labels: |
-          'needs-triage'
-          'enhancement'
+          needs-triage
+          enanchement
 
         

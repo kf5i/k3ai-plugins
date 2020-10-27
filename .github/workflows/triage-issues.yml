@@ -27,6 +27,6 @@ jobs:
         issue_number: current
         labels: |
           needs-triage
-          enanchement
+          enhancement
 
         

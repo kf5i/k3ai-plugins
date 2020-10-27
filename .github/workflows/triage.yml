@@ -8,6 +8,7 @@ jobs:
   automate-project-columns:
     runs-on: ubuntu-latest
     steps:
+      - if: github.event_name == 'issues' && github.event.label.name == 'needs-triage' && github.event.label.name == 'enhancement'
       - uses: alex-page/github-project-automation-plus@v0.3.0
         with:
           project: "Public Roadmap for K3ai"

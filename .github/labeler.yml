@@ -28,7 +28,7 @@ comments:
 labels:
   'enhancement':
     include:
-      - '\b[feat:]\b'
+      - '\b[feat:]b'
     exclude: []
    'need-triage':
     include:

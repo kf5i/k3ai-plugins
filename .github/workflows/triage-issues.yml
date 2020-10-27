@@ -3,9 +3,9 @@ name: Auto Assign to Project(s)
 
 on:
   issues:
-    types: [created,opened, labeled, edited, reopened]
+    types: [created,opened,reopened]
   pull_request:
-    types: [created,opened, labeled, edited, reopened]
+    types: [created,opened,reopened]
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
   
@@ -14,19 +14,37 @@ jobs:
     runs-on: ubuntu-latest
     name: Assign to One Project
     steps:
-    - name: Assign NEW issues and NEW pull requests to public roadmap
-      uses: srggrs/assign-one-project-github-action@1.2.0
+    #Issue's
+    - uses: actions/checkout@v2
+    - uses: actions-ecosystem/action-add-labels@v1
+      if:  contains(github.event.issue.title, '[feat:]')
+      with:
+        labels: |
+          needs-triage
+          enhancement
+    - uses: srggrs/assign-one-project-github-action@1.2.0
       if:  contains(github.event.issue.title, '[feat:]')
       with:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'
     - uses: actions/checkout@v2
     - uses: actions-ecosystem/action-add-labels@v1
-      #if: ${{ startsWith(github.event.comment.body, '/add-labels') }}
+      if:  contains(github.event.issue.title, '[bug:]')
       with:
-        github_token: ${{ secrets.MY_GITHUB_TOKEN }}
         labels: |
-          needs-triage
+          bug
+    #PR's are always opened in the "In Progress" column
+    - uses: srggrs/assign-one-project-github-action@1.2.0
+      if:  contains(github.event.pull_request.title, '[feat:]')
+      with:
+        project: 'https://github.com/orgs/kf5i/projects/2'
+        column_name: 'In Progress'
+    - uses: actions/checkout@v2
+    - uses: actions-ecosystem/action-add-labels@v1
+      with:
+        labels: |
+          approved
           enhancement
+
 
         

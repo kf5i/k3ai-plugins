@@ -1,9 +1,0 @@
-- name: Assign to One Project
-  # You may pin to the exact commit or the version.
-  # uses: srggrs/assign-one-project-github-action@ee9e04cf29076579440cf7a149b0d5647467dc5b
-  uses: srggrs/assign-one-project-github-action@1.2.0
-  with:
-    # The url of the project to be assigned to.
-    project: 
-    # The column name of the project, defaults to "To do" for issues and "In progress" for pull requests.
-    column_name: # optional

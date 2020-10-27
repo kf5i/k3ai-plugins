@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: alex-page/github-project-automation-plus@v0.3.0
         with:
-          project: Public Roadmap for K3ai
-          column: Features Requests
+          project: "Public Roadmap for K3ai"
+          column: "Features Requests"
           repo-token: ${{ secrets.MY_GITHUB_TOKEN }}

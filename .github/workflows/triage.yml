@@ -1,0 +1,15 @@
+name: Triage new issues and move them based on their status&label
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.3.0
+        with:
+          project: Public Roadmap for K3ai
+          column: Features Requests
+          repo-token: ${{ secrets.GITHUB_TOKEN }}

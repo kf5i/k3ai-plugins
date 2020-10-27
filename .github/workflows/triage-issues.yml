@@ -21,14 +21,9 @@ jobs:
       with:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'
-        
-    - name: Add Labels
-      # You may pin to the exact commit or the version.
-      # uses: christianvuerings/add-labels@ede518da81f427f037b828421aa08c239bfc7f47
-      uses: christianvuerings/add-labels@v1.1
-      with:
         # Labels to add
         labels: |
           'needs-triage'
           'enhancement'
+
         

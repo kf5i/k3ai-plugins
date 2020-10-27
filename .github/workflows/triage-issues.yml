@@ -20,7 +20,6 @@ jobs:
       with:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'
-    - name: Add labels
     - uses: actions/checkout@v2
     - uses: actions-ecosystem/action-add-labels@v1
       #if: ${{ startsWith(github.event.comment.body, '/add-labels') }}

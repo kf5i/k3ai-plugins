@@ -33,18 +33,7 @@ jobs:
       with:
         labels: |
           bug
-    - uses: srggrs/assign-one-project-github-action@1.2.0
-      if: contains(github.event.pull_request.labels.*.name, 'roadmap')
-      with:
-        project: 'https://github.com/orgs/kf5i/projects/2'
-        column_name: 'Roadmap'
-    - uses: srggrs/assign-one-project-github-action@1.2.0
-      if:  |
-        contains(github.event.pull_request.labels.*.name, 'approved')
-        contains(github.event.pull_request.labels.*.name, 'roadmap')
-      with:
-        project: 'https://github.com/orgs/kf5i/projects/2'
-        column_name: 'Approved'
+
     #PR's are always opened in the "In Progress" column
     - uses: srggrs/assign-one-project-github-action@1.2.0
       if:  contains(github.event.pull_request.title, '[feat:]')

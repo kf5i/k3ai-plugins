@@ -1,16 +1,9 @@
-name: Triage new issues and move them based on their status&label
-
-on:
-  issues:
-    types: [opened]
-
-jobs:
-  automate-project-columns:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: alex-page/github-project-automation-plus@v0.3.0
-        if: github.event_name == 'issues' && github.event.label.name == 'needs-triage' && github.event.label.name == 'enhancement'
-        with:
-          project: "Public Roadmap for K3ai"
-          column: "Features Requests"
-          repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
+- name: Assign to One Project
+  # You may pin to the exact commit or the version.
+  # uses: srggrs/assign-one-project-github-action@ee9e04cf29076579440cf7a149b0d5647467dc5b
+  uses: srggrs/assign-one-project-github-action@1.2.0
+  with:
+    # The url of the project to be assigned to.
+    project: 
+    # The column name of the project, defaults to "To do" for issues and "In progress" for pull requests.
+    column_name: # optional

@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Process Label Action
+      - name: Label Actions
         uses: hramos/label-actions@v1
         with:
           repo-token: ${{ secrets.MY_GITHUB_TOKEN }}

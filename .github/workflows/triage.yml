@@ -12,4 +12,4 @@ jobs:
         with:
           project: Public Roadmap for K3ai
           column: Features Requests
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.MY_GITHUB_TOKEN }}

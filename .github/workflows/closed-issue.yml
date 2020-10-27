@@ -3,7 +3,7 @@ name: Remove All Labels
 on:
   pull_request:
     types: [closed]
-  issue:
+  issues:
     types: [closed]
 
 jobs:

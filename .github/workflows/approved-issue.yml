@@ -2,7 +2,7 @@ name: Approved Labels
 
 on: 
   issues:
-    types: [edited]
+    types: [issue_comment]
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
   

@@ -36,11 +36,4 @@ jobs:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: |
             roadmap
-      - uses: srggrs/assign-one-project-github-action@1.2.0
-        if: |
-         ${{ startsWith(github.event.comment.body, '/approved') }}
-         ${{ startsWith(github.event.comment.body, '/roadmap') }}
-        with:
-          project: 'https://github.com/orgs/kf5i/projects/2'
-          column_name: 'Approved'
 

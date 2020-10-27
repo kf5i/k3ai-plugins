@@ -41,7 +41,6 @@ jobs:
          ${{ startsWith(github.event.comment.body, '/approved') }}
          ${{ startsWith(github.event.comment.body, '/roadmap') }}
         with:
-          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           project: 'https://github.com/orgs/kf5i/projects/2'
           column_name: 'Approved'
 

@@ -8,7 +8,6 @@ on:
     types: [created,opened, labeled, edited, reopened]
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
   
 jobs:
   assign_one_project:
@@ -22,9 +21,11 @@ jobs:
         project: 'https://github.com/orgs/kf5i/projects/2'
         column_name: 'Features Requests'
     - name: Add labels
-      uses: ActionsRML/add-labels-to-issue@v1
+    - uses: actions/checkout@v2
+    - uses: actions-ecosystem/action-add-labels@v1
+      #if: ${{ startsWith(github.event.comment.body, '/add-labels') }}
       with:
-        #issue_number: current
+        github_token: ${{ secrets.MY_GITHUB_TOKEN }}
         labels: |
           needs-triage
           enhancement

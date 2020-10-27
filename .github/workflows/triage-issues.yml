@@ -19,6 +19,7 @@ jobs:
     - uses: actions-ecosystem/action-add-labels@v1
       if:  contains(github.event.issue.title, '[feat:]')
       with:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         labels: |
           needs-triage
           enhancement

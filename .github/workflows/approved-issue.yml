@@ -1,0 +1,39 @@
+name: Approved Labels
+
+on: 
+  issues:
+    types: [edited]
+
+jobs:
+  remove_labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/approved') }}
+        with:
+          github_token: ${{ secrets.github_token }}
+          labels: |
+            needs-triage
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            approved
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/roadmap') }}
+        with:
+          github_token: ${{ secrets.github_token }}
+          labels: |
+            needs-triage
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            roadmap
+      - uses: srggrs/assign-one-project-github-action@1.2.0
+        with:
+          project: 'https://github.com/orgs/kf5i/projects/2'
+          column_name: 'Approved'
+

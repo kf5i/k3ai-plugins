@@ -10,28 +10,29 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-remove-labels@v1
-        if: ${{ startsWith(github.event.comment.body, '/approved') }}
+        if: ${{ startsWith(github.event.comment.body, '/approved') }} || ${{ startsWith(github.event.comment.body, '/approved /roadmap') }} 
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: |
             needs-triage
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ startsWith(github.event.comment.body, '/approved') }}
+        if: ${{ startsWith(github.event.comment.body, '/approved') }} || ${{ startsWith(github.event.comment.body, '/approved /roadmap') }} 
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }} 
           labels: |
             approved
+            roadmap
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-remove-labels@v1
-        if: ${{ startsWith(github.event.comment.body, '/roadmap') }}
+        if: ${{ startsWith(github.event.comment.body, '/roadmap') }} || ${{ startsWith(github.event.comment.body, '/roadmap /approved') }} 
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: |
             needs-triage
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ startsWith(github.event.comment.body, '/roadmap') }}
+        if: ${{ startsWith(github.event.comment.body, '/roadmap') }} || ${{ startsWith(github.event.comment.body, '/roadmap /approved') }}
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: |

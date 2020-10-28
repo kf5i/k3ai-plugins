@@ -10,7 +10,6 @@ env:
   
 jobs:
   add_ena_label:
-    needs: standard_contribution
     # Now we add a basic label called "needs-triage" to the issue and move on
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +21,6 @@ jobs:
           labels: enhancement
 
   add_bug_label:
-    needs: standard_contribution
     # Now we add a basic label called "needs-triage" to the issue and move on
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +32,6 @@ jobs:
           labels: bug
 
   add_question_label:
-    needs: standard_contribution
     # Now we add a basic label called "needs-triage" to the issue and move on
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +43,6 @@ jobs:
           labels: question
 
   add_docs_label:
-    needs: standard_contribution
     # Now we add a basic label called "needs-triage" to the issue and move on
     runs-on: ubuntu-latest
     steps:

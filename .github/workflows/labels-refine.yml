@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ github.event.comment.body, '/ena' }}
+        if: ${{ startsWith(github.event.comment.body, '/ena') }}
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: enhancement
@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ github.event.comment.body, '/bug' }}
+        if: ${{ startsWith(github.event.comment.body, '/bug') }}
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: bug
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ github.event.comment.body, '/question' }}
+        if: ${{ startsWith(github.event.comment.body, '/question') }}
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: question
@@ -48,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions-ecosystem/action-add-labels@v1
-        if: ${{ github.event.comment.body, '/docs' }}
+        if: ${{ startsWith(github.event.comment.body, '/docs') }}
         with:
           github_token: ${{ secrets.MY_GITHUB_TOKEN }}
           labels: documentation

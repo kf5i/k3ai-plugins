@@ -24,7 +24,7 @@ jobs:
       with:
         repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
         issue-reaction:
-        issue-message: '# Seems like this is the first time issue for you ${{GITHUB_ACTOR}}.\nThank You for taking the time to contribute to K3ai project!'
+        issue-message: '# :horray: :+1: Seems like this is the first time issue for you.\nThank You for taking the time to contribute to K3ai project!'
     
 
   standard_contribution:

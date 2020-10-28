@@ -2,8 +2,8 @@
 name: K3ai Triage Labeling Workflow
 
 on:
-  issues:
-    type: issue_comment
+  issue_comment:
+    types: [created]
 
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}

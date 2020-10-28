@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+name: K3ai Triage Management Workflow
+
+on:
+  issues:
+    type: [issue_comment]
+
+env:
+  MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+  
+jobs:
+  add_ena_label:
+    needs: standard_contribution
+    # Now we add a basic label called "needs-triage" to the issue and move on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/ena') }}
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          labels: enhancement
+
+  add_bug_label:
+    needs: standard_contribution
+    # Now we add a basic label called "needs-triage" to the issue and move on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/bug') }}
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          labels: bug
+
+  add_question_label:
+    needs: standard_contribution
+    # Now we add a basic label called "needs-triage" to the issue and move on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/question') }}
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          labels: question
+
+  add_docs_label:
+    needs: standard_contribution
+    # Now we add a basic label called "needs-triage" to the issue and move on
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-add-labels@v1
+        if: ${{ startsWith(github.event.comment.body, '/docs') }}
+        with:
+          github_token: ${{ secrets.MY_GITHUB_TOKEN }}
+          labels: documentation

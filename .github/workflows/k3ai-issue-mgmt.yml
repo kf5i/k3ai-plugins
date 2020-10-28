@@ -42,7 +42,7 @@ jobs:
               1) Our Super Duper @k3aibot will add some label to your issue to your issue to better track it
               2) Second @k3aibot will move the issue into our funnel here (General Funnel Board)[https://github.com/orgs/kf5i/projects/3]
               3) One of the K3ai members will be assigned to review your issue and start the real job on it
-              Oh one last thing if you like to speed up the entire process let us know what kind of issue is this adding one of these labels
+              Oh one last thing if you like to speed up the entire process let us know what kind of issue is this adding one of these labels (only one per comment)
                 :point_down: :point_down: :point_down:
               - /ena this is needed if your issue require a new feature
               - /bug in case you forgot to use the bug template we will take care of it

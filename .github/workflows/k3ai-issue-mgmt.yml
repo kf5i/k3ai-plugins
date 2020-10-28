@@ -23,7 +23,9 @@ jobs:
     - uses: actions/first-interaction@v1
       with:
         repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
-        issue-message: '# :horray: :+1: Seems like this is the first time issue for you.\nThank You for taking the time to contribute to K3ai project!'
+        issue-message: '# :+1: Seems like this is the first time issue for you.
+            
+            Thank You for taking the time to contribute to K3ai project!'
     
 
   standard_contribution:

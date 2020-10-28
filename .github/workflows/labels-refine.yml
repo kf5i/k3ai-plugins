@@ -3,7 +3,7 @@ name: K3ai Triage Management Workflow
 
 on:
   issues:
-    type: [issue_comment]
+    type: issue_comment
 
 env:
   MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}

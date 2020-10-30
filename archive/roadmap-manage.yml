@@ -1,0 +1,28 @@
+on:
+  issues:
+    types: [labeled]
+jobs:
+  Move_Labeled_Issue_On_Project_Board:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+      with:
+        action-token: "${{ secrets.MY_GITHUB_TOKEN }}"
+        project-url: "https://github.com/orgs/kf5i/projects/2"
+        column-name: "Roadmap"
+        label-name: "roadmap"
+        #columns-to-ignore: "Approved,In progress,Done"
+    - uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+      with:
+        action-token: "${{ secrets.MY_GITHUB_TOKEN }}"
+        project-url: "https://github.com/orgs/kf5i/projects/2"
+        column-name: "Approved"
+        label-name: "approved"
+        #columns-to-ignore: "Roadmap,In progress,Done"
+    - uses: konradpabjan/move-labeled-or-milestoned-issue@v2.0
+      with:
+        action-token: "${{ secrets.MY_GITHUB_TOKEN }}"
+        project-url: "https://github.com/orgs/kf5i/projects/2"
+        column-name: "In Progress"
+        label-name: "wip"
+        #columns-to-ignore: "Roadmap, Approved,Done"

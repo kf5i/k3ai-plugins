@@ -1,6 +1,3 @@
-plugin-name: Test
-namespace: "argo"
+plugin-name: Argo
 yaml:
   - url: "https://raw.githubusercontent.com/argoproj/argo/stable/manifests/namespace-install.yaml"
-    type: "file"
-    

@@ -16,8 +16,8 @@ spec:
   ingressClassName: "traefik-lb"
   rules:
     - http:
-  paths:
-  - path: "/"
-  backend:
-    serviceName: "argo-server"
-    servicePort: 2746
+        paths:
+        - path: "/"
+          backend:
+            serviceName: "argo-server"
+            servicePort: 2746

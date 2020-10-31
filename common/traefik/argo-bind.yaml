@@ -9,9 +9,8 @@ apiVersion: "networking.k8s.io/v1beta1"
 kind: "Ingress"
 metadata:
   name: "argo-ingress"
-  namespace: argo
-annotations:
-  nginx.ingress.kubernetes.io/rewrite-target: /$2s        
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2s        
 spec:
   ingressClassName: "traefik-lb"
   rules:

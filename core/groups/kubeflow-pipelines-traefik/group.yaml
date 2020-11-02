@@ -1,7 +1,7 @@
 plugin-type: group
-group-name: argo-workflow
+group-name: kubeflow-pipelines-traefik
 plugins:
-  - name: argo-workflow
+  - name: kubeflow-pipelines
     enabled: true
 inline-plugins:
   - plugin-name: kubeflow-bind-traefik

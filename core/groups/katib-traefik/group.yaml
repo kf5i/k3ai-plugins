@@ -1,6 +1,10 @@
 plugin-type: group
 group-name: katib-traefik
 plugins:
+  - name: pytorch-op
+    enabled: true
+  - name: tensorflow-op
+    enabled: true
   - name: katib
     enabled: true
 inline-plugins:

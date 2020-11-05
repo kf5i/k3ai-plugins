@@ -1,0 +1,9 @@
+plugin-type: group
+group-name: pytorch-op-traefik
+plugins:
+  - name: pytorch-op
+    enabled: true
+inline-plugins:
+  - plugin-name: pytorch-op-bind-traefik
+    yaml:
+      - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/traefik/pytorch-op-bind.yaml"

@@ -1,0 +1,9 @@
+plugin-type: group
+group-name: katib-traefik
+plugins:
+  - name: katib
+    enabled: true
+inline-plugins:
+  - plugin-name: katib-bind-traefik
+    yaml:
+      - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/traefik/katib-traefik-bind.yaml"

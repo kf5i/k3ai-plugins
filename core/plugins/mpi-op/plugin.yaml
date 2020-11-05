@@ -1,0 +1,5 @@
+plugin-name: mpi-op
+namespace: "kubeflow"
+yaml:
+  - url: "https://raw.githubusercontent.com/kubeflow/mpi-operator/master/deploy/v1/mpi-operator.yaml"
+    type: "file"

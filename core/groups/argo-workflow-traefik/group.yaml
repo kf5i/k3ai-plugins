@@ -1,6 +1,6 @@
 plugin-type: group
 group-name: Argo workflow traefik
-group-description: Expose Argo Workflow using traefik HTTP. http://<<ip>> 
+group-description: Expose Argo Workflow using traefik HTTP
 plugins:
   - name: argo-workflow
     enabled: true

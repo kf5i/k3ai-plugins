@@ -1,3 +1,5 @@
 plugin-name: Argo
+labels:
+  - "app=workflow-controller"
 yaml:
   - url: "https://raw.githubusercontent.com/argoproj/argo/stable/manifests/namespace-install.yaml"

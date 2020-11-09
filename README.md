@@ -5,3 +5,6 @@ Where is possible we will create a simple re-direction to the orginal repo's
 
 ## Note
 Always insert a small readme file in each folder where to link the original work, authors and any useful information. We contribute to the community and work with it!
+
+# Hall of Fame of K3ai Plugins Contributors
+[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/0)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/0)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/1)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/1)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/2)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/2)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/3)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/3)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/4)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/4)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/5)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/5)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/6)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/6)[![](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/images/7)](https://sourcerer.io/fame/alfsuse/kf5i/k3ai-plugins/links/7)

@@ -1,4 +1,4 @@
-plugin-name: katib
+plugin-name: jupyter-minimal
 namespace: "jupyter"
 yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/jupyter/base/deployment.yaml"

@@ -473,7 +473,7 @@ metadata:
   labels:
     app: katib
 spec:
-  storageClassName: katib
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
   resources:

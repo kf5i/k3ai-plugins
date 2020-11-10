@@ -5,7 +5,7 @@ plugins:
   - name: jupyter-minimal
     enabled: true
 inline-plugins:
-  - plugin-name: katib-bind-traefik
+  - plugin-name: jupyter-minimal-traefik
     yaml:
       - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/traefik/jupyter-minimal-bind.yaml"
     post-install:

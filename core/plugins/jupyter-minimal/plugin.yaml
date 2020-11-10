@@ -1,5 +1,5 @@
 plugin-name: katib
-namespace: "kubeflow"
+namespace: "jupyter"
 yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/jupyter/base/deployment.yaml"
     type: "file"  

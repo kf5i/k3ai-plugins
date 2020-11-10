@@ -4,4 +4,4 @@ yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/jupyter/base/deployment.yaml"
     type: "file"  
 post-install:
-  command: "echo \"Jupyter URL: http://\"  $(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system) \":8888\""
+  command: "echo $(kubectl exec -n jupyter $(kubectl get pod -n jupyter -l app=jupyter-srv -o name)) \"-- pip install kfp\" && echo \"Jupyter URL: http://\"  $(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system) \":8888\""

@@ -12,5 +12,5 @@ inline-plugins:
   - plugin-name: katib-bind-traefik
     yaml:
       - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/traefik/katib-traefik-bind.yaml"
-post-install:
-    command: "echo \"KATIB URL: http://\"  $(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system)"/katib""
+    post-install:
+      command: "echo \"KATIB URL: http://\"  $(kubectl get service/traefik -o jsonpath='{.status.loadBalancer.ingress[0].ip}' -n kube-system) \"/katib\""

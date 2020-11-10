@@ -6,7 +6,7 @@ metadata:
     type: local
     app: katib
 spec:
-  storageClassName: katib
+  storageClassName: local-path
   capacity:
     storage: 10Gi
   accessModes:

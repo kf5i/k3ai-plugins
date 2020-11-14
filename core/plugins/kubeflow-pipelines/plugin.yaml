@@ -1,5 +1,5 @@
 plugin-name: kubeflow-pipelines
-plugin-description: Kubeflow Pipelines plaform agnostic 
+plugin-description: Kubeflow Pipelines platform agnostic 
 namespace: "kubeflow"
 yaml:
   - url: "github.com/kubeflow/pipelines/manifests/kustomize/cluster-scoped-resources?ref=1.0.4"

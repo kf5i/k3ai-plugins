@@ -1,4 +1,6 @@
-plugin-name: pytorch-op
+plugin-name: Pytorch Op
+plugin-description: Pytorch op
+
 namespace: "kubeflow"
 yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/pytorch/base/crd.yaml"

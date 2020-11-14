@@ -1,4 +1,6 @@
-plugin-name: katib
+plugin-name: Katib
+plugin-description: Kubeflow Katib 
+
 namespace: "kubeflow"
 yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/katib/base/namespace-0.yaml"

@@ -1,4 +1,5 @@
 plugin-name: ci-tests
+plugin-description: For CI Tests
 namespace: "argo"
 yaml:
   - url: "https://raw.githubusercontent.com/argoproj/argo/stable/manifests/namespace-install.yaml"

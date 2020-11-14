@@ -1,4 +1,5 @@
-plugin-name: h2o-single
+plugin-name: H2O
+plugin-description: H2O.ai
 namespace: "h2o"
 yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/h2o/base/namespace-0.yaml"

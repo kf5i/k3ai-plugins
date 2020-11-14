@@ -1,4 +1,4 @@
-plugin-name: Tensorflow
+plugin-name: tensorflow-op
 plugin-description: Kubeflow Tensorflow
 
 namespace: "kubeflow"

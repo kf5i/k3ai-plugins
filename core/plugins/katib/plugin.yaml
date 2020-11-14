@@ -1,4 +1,4 @@
-plugin-name: Katib
+plugin-name: katib
 plugin-description: Kubeflow Katib 
 
 namespace: "kubeflow"

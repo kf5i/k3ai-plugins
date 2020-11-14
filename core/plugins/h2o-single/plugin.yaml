@@ -1,4 +1,4 @@
-plugin-name: H2O
+plugin-name: h2o-single
 plugin-description: H2O.ai
 namespace: "h2o"
 yaml:

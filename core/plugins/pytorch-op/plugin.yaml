@@ -1,4 +1,4 @@
-plugin-name: Pytorch Op
+plugin-name: pytorch-op
 plugin-description: Pytorch op
 
 namespace: "kubeflow"

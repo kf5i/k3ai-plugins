@@ -1,4 +1,5 @@
-plugin-name: Argo
+plugin-name: Argo Workflow
+plugin-description: Argo Workflow plugin
 labels:
   - "app=workflow-controller"
 yaml:

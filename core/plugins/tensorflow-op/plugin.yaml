@@ -1,4 +1,6 @@
-plugin-name: tensorflow-op
+plugin-name: Tensorflow
+plugin-description: Kubeflow Tensorflow
+
 namespace: "kubeflow"
 yaml:
   - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/tensorflow/base/crd.yaml"

@@ -1,5 +1,6 @@
 plugin-type: group
 group-name: tensorflow-op-traefik
+group-description: Expose Tensorflow using traefik HTTP
 plugins:
   - name: tensorflow-op
     enabled: true

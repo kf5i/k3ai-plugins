@@ -1,5 +1,6 @@
 plugin-type: group
 group-name: kubeflow-pipelines-traefik
+group-description: Expose Kubeflow Workflow using traefik HTTP
 plugins:
   - name: kubeflow-pipelines
     enabled: true

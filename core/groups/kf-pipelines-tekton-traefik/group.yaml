@@ -9,6 +9,6 @@ plugins:
 inline-plugins:
   - plugin-name: kf-pipelines-tekton-traefik
     yaml:
-      - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/traefik/kf-pipelines-bind.yaml"
+      - url: "https://raw.githubusercontent.com/kf5i/k3ai-plugins/main/common/traefik/kubeflow-pipeline-bind.yaml"
     post-install:
       command:  "echo \"kubectl patch svc ml-pipeline-ui -n kubeflow -p '{\"spec\": {\"type\": \"LoadBalancer\"}}'\"\""

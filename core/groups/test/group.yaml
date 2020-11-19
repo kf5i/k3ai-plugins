@@ -1,8 +1,8 @@
 plugin-type: group
-group-n ame: test_two_plugins
+group-name: test
+group-description: "This is a CI test"
 plugins:
-  - name: test
-    enabled: true
   - name: argo
     enabled: true
+
 

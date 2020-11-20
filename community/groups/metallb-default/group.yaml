@@ -1,5 +1,6 @@
 plugin-type: group
-group-name: Metallb with default ports
+group-name: metallb-default
+group-description: Metallb with default ports
 plugins:
   - name: metallb 
     enabled: true

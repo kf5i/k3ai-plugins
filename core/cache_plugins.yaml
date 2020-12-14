@@ -16,7 +16,7 @@ items:
  - name: mpi-op                       
    description: MPI-Operator 
  - name: nvidia-gpu                     
-   description: Nvidia GPU support check https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#install-guide 
+   description: Nvidia GPU support
  - name: pytorch-op                       
    description:  Pytorch op
  - name: tekton                       

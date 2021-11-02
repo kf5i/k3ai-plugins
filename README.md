@@ -1,3 +1,5 @@
+# WE RELEASED THE NEW VERSION CHECK THE NEW ORG AT: [https://github.com/k3ai](https://github.com/k3ai) AND OUR NEW WEBSITE/DOCS AT: [https://k3ai.in](https://k3ai.in)
+
 # k3ai-plugins
 K3ai plugins Repo is the place where we host all the  optional capabilites of k3ai. 
 The main goal of the repo is to mantainer k3ai simple and lightweight while adding capabilites in the form of manifests or helm charts.
